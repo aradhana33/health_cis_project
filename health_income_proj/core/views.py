@@ -5,6 +5,15 @@ import seaborn as sns                 # for prettier plots
 import base64                         # for image encoding
 from io import BytesIO                # for in-memory image buffer
 
+def fig_to_base64(fig):
+    buf = BytesIO()
+    fig.tight_layout()
+    fig.savefig(buf, format='png')
+    buf.seek(0)
+    image_png = base64.b64encode(buf.getvalue()).decode('utf-8')
+    buf.close()
+    return image_png
+    
 def dashboard_from_excel(request):
     # Load data from DB
     queryset = CISHealthData.objects.all()
