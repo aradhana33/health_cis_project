@@ -1,10 +1,10 @@
 {% extends "core/base.html" %}
 {% block content %}
-<div style="width: 60%; margin: auto;">
-  <h2 class="text-center">Average Income by Gender</h2>
-  <canvas id="genderChart"></canvas>
+<h2 class="text-center">Average Income by Gender</h2>
+<div class="text-center">
+    <img src="data:image/png;base64,{{ chart }}" alt="Gender Pay Gap Chart" class="img-fluid"/>
 </div>
-
+{% endblock %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
   fetch("/api/gender-pay-gap/")
@@ -45,4 +45,3 @@
       });
     });
 </script>
-{% endblock %}
