@@ -65,7 +65,7 @@ def dashboard_from_excel(request):
 
 def api_gender_pay_gap(request):
     data = (
-        CisHealthData.objects
+        CISHealthData.objects
         .filter(Gender__in=[1, 2])
         .values('Gender')
         .annotate(avg_income=Avg('income_after_tax'))
@@ -74,7 +74,7 @@ def api_gender_pay_gap(request):
 
 def api_province_income_health(request):
     data = (
-        CisHealthData.objects
+        CISHealthData.objects
         .values('Province')
         .annotate(
             avg_income=Avg('income_after_tax'),
@@ -88,7 +88,7 @@ from django.db.models import FloatField
 from django.db.models.functions import Cast
 
 def api_work_vs_mental(request):
-    records = CisHealthData.objects.exclude(Work_hours=None, Mental_health_state=None)
+    records = CISHealthData.objects.exclude(Work_hours=None, Mental_health_state=None)
     result = records.annotate(
         Work_hours_f=Cast('Work_hours', FloatField()),
         Mental_health_state_f=Cast('Mental_health_state', FloatField())
@@ -96,7 +96,7 @@ def api_work_vs_mental(request):
     return JsonResponse(list(result), safe=False)
 
 def api_assistance_vs_food(request):
-    all_data = CisHealthData.objects.all().values(
+    all_data = CISHealthData.objects.all().values(
         'CPP_QPP', 'Child_benefit', 'Guaranteed_income', 'Food_security'
     )
     counts = {}
