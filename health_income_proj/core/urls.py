@@ -1,12 +1,3 @@
-# from django.urls import path
-# from . import views
-
-# urlpatterns = [
-#     path('', views.dashboard, name='dashboard'),
-#     path('api/summary/', views.api_summary, name='api-summary'),
-#     path('api/province-stats/', views.api_province_stats, name='api-province-stats'),
-# ]
-
 from django.urls import path
 from . import views
 
