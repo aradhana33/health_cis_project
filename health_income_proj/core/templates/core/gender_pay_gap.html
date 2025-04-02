@@ -8,7 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
   // Fetch API data
-  fetch('/api/gender-pay-gap-data/')
+  fetch('/api/gender-pay-gap/')
     .then(response => response.json())
     .then(data => {
       const labels = data.map(item => item.Gender === 1 ? "Male" : "Female");
