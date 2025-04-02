@@ -70,7 +70,7 @@ def api_gender_pay_gap(request):
         .values('Gender')
         .annotate(avg_income=Avg('income_after_tax'))
     )
-    return JsonResponse(list(data), safe=False)
+    return render(request, 'core/gender_pay_gap.html')
 
 def api_province_income_health(request):
     data = (
