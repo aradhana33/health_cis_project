@@ -1,16 +1,17 @@
 {% extends "core/base.html" %}
+
 {% block content %}
 <h2 class="text-center">Average Income by Gender</h2>
-<div class="text-center">
-    <img src="data:image/png;base64,{{ chart }}" alt="Gender Pay Gap Chart" class="img-fluid"/>
-</div>
-{% endblock %}
+
+<canvas id="genderChart" width="400" height="200"></canvas>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  fetch("/api/gender-pay-gap/")
+  // Fetch API data
+  fetch('/api/gender-pay-gap-data/')
     .then(response => response.json())
     .then(data => {
-      const labels = data.map(item => item.Gender === 1 ? 'Male' : 'Female');
+      const labels = data.map(item => item.Gender === 1 ? "Male" : "Female");
       const values = data.map(item => item.avg_income);
 
       const ctx = document.getElementById('genderChart').getContext('2d');
@@ -19,29 +20,32 @@
         data: {
           labels: labels,
           datasets: [{
-            label: 'Average Income After Tax ($)',
+            label: 'Average Income',
             data: values,
-            backgroundColor: ['#4e79a7', '#f28e2c'],
-            borderWidth: 1
+            backgroundColor: ['#4e79a7', '#f28e2b']
           }]
         },
         options: {
           responsive: true,
           plugins: {
-            legend: {
-              display: false
-            },
+            legend: { display: false },
             title: {
               display: true,
-              text: 'Gender Pay Gap (Avg Income After Tax)'
+              text: 'Average Income by Gender'
             }
           },
           scales: {
             y: {
-              beginAtZero: true
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return '$' + value.toLocaleString();
+                }
+              }
             }
           }
         }
       });
     });
 </script>
+{% endblock %}
