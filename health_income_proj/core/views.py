@@ -5,6 +5,8 @@ import seaborn as sns                 # for prettier plots
 import base64                         # for image encoding
 from io import BytesIO                # for in-memory image buffer
 from django.shortcuts import render
+from django.http import JsonResponse
+from django.db.models import Avg
 
 def fig_to_base64(fig):
     buf = BytesIO()
@@ -60,3 +62,64 @@ def dashboard_from_excel(request):
     charts['assistance_vs_food'] = fig_to_base64(fig5)
 
     return render(request, 'core/dashboard.html', charts)
+
+def api_gender_pay_gap(request):
+    data = (
+        CisHealthData.objects
+        .filter(Gender__in=[1, 2])
+        .values('Gender')
+        .annotate(avg_income=Avg('income_after_tax'))
+    )
+    return JsonResponse(list(data), safe=False)
+
+def api_province_income_health(request):
+    data = (
+        CisHealthData.objects
+        .values('Province')
+        .annotate(
+            avg_income=Avg('income_after_tax'),
+            avg_health=Avg('Gen_health_state'),
+            avg_mental=Avg('Mental_health_state'),
+        )
+    )
+    return JsonResponse(list(data), safe=False)
+
+from django.db.models import FloatField
+from django.db.models.functions import Cast
+
+def api_work_vs_mental(request):
+    records = CisHealthData.objects.exclude(Work_hours=None, Mental_health_state=None)
+    result = records.annotate(
+        Work_hours_f=Cast('Work_hours', FloatField()),
+        Mental_health_state_f=Cast('Mental_health_state', FloatField())
+    ).values('Work_hours_f', 'Mental_health_state_f')
+    return JsonResponse(list(result), safe=False)
+
+def api_assistance_vs_food(request):
+    all_data = CisHealthData.objects.all().values(
+        'CPP_QPP', 'Child_benefit', 'Guaranteed_income', 'Food_security'
+    )
+    counts = {}
+
+    for record in all_data:
+        programs_received = sum(
+            int(record.get(field, 0)) > 0
+            for field in ['CPP_QPP', 'Child_benefit', 'Guaranteed_income']
+        )
+        food_insecure = 1 if record.get('Food_security', 0) > 0 else 0
+
+        if programs_received not in counts:
+            counts[programs_received] = {'insecure': 0, 'total': 0}
+
+        counts[programs_received]['total'] += 1
+        counts[programs_received]['insecure'] += food_insecure
+
+    result = [
+        {
+            'programs_received': k,
+            'food_insecurity_probability': v['insecure'] / v['total']
+        } for k, v in counts.items()
+    ]
+    return JsonResponse(result, safe=False)
+
+
