@@ -1,7 +1,7 @@
 from .models import CISHealthData
 from django_pandas.io import read_frame  # you may need to pip install django-pandas
 
-def dashboard_from_db(request):
+def dashboard_from_excel(request):
     # Load data from DB
     queryset = CISHealthData.objects.all()
     df = read_frame(queryset)
