@@ -1,0 +1,27 @@
+<h2>📊 Survey Dashboard (Live from Excel)</h2>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Province</th>
+            <th>Gender</th>
+            <th>Income After Tax</th>
+            <th>Earning</th>
+            <th>Life Satisfaction</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in records %}
+            <tr>
+                <td>{{ row.Province }}</td>
+                <td>{{ row.Gender }}</td>
+                <td>{{ row.income_after_tax }}</td>
+                <td>{{ row.Earning }}</td>
+                <td>{{ row.Life_satisfaction }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>📈 Summary</h3>
+{{ summary|safe }}

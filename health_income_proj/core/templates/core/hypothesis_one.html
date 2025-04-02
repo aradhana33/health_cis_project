@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hypothesis 1: Gender, Education & Income</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background: #f7f9fb;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .charts {
+            display: flex;
+            gap: 40px;
+        }
+        .charts img {
+            width: 45%;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .table {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1> Hypothesis 1: Gender, Education & Income</h1>
+
+    <div class="section">
+        <h2>Hypothesis</h2>
+        <p>We hypothesize that gender has a statistically significant effect on income, even after adjusting for education level. We also test whether there's an interaction between gender and education on income.</p>
+    </div>
+
+    <div class="section charts">
+        <img src="data:image/png;base64,{{ chart_gender }}" alt="Income by Gender">
+        <img src="data:image/png;base64,{{ chart_edu }}" alt="Income by Education">
+    </div>
+
+    <div class="section">
+        <h2>ANOVA Results (Interaction of Gender × Education)</h2>
+        {{ anova_html|safe }}
+    </div>
+
+    <div class="section">
+        <h2>Conclusion</h2>
+        <p>
+            The ANOVA results indicate that both gender and education significantly affect income. 
+            Moreover, the interaction term confirms that the impact of education on income varies by gender.
+            This suggests that the gender pay gap persists across education levels.
+        </p>
+    </div>
+
+</body>
+</html>

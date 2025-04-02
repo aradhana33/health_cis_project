@@ -1,0 +1,13 @@
+Django>=4.2
+mysqlclient>=2.2.0  # Preferred MySQL driver for Django (requires MySQL dev tools)
+
+# OR use pymysql if mysqlclient gives issues on your OS
+# pymysql>=1.1.0
+
+pandas>=2.2.0
+matplotlib>=3.8.0
+seaborn>=0.13.0
+django-pandas>=0.6.6  # Optional: for converting QuerySet to DataFrame easily
+
+# Web server for production (optional)
+gunicorn>=21.2.0
