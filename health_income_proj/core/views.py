@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt       # for plotting
 import seaborn as sns                 # for prettier plots
 import base64                         # for image encoding
 from io import BytesIO                # for in-memory image buffer
+from django.shortcuts import render
 
 def fig_to_base64(fig):
     buf = BytesIO()
