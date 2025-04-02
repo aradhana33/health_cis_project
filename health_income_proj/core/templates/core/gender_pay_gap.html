@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="width: 60%; margin: auto;">
+  <h2 class="text-center">Average Income by Gender</h2>
+  <canvas id="genderChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  fetch("/api/gender-pay-gap/")
+    .then(response => response.json())
+    .then(data => {
+      const labels = data.map(item => item.Gender === 1 ? 'Male' : 'Female');
+      const values = data.map(item => item.avg_income);
+
+      const ctx = document.getElementById('genderChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Average Income After Tax ($)',
+            data: values,
+            backgroundColor: ['#4e79a7', '#f28e2c'],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            },
+            title: {
+              display: true,
+              text: 'Gender Pay Gap (Avg Income After Tax)'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    });
+</script>
+{% endblock %}
