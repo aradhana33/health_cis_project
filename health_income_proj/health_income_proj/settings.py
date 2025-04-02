@@ -79,8 +79,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mydb',  # your RDS database name
-        'USER': 'admin',  # your RDS master username
-        'PASSWORD': 'Aradhana',  # your RDS master password
+        'USER': '',  # your RDS master username
+        'PASSWORD': '',  # your RDS master password
         'HOST': 'mydb.cifw62eqauhu.us-east-1.rds.amazonaws.com',  # your RDS endpoint (without https or port)
         'PORT': '3306',
         'OPTIONS': {
