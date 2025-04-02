@@ -8,7 +8,7 @@
 # ]
 
 from django.urls import path
-from .views import dashboard_from_excel, hypothesis_one_view
+from .views import dashboard_from_excel
 
 urlpatterns = [
     path('dashboard/', dashboard_from_excel, name='dashboard_excel'),
