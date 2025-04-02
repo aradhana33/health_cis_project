@@ -1,5 +1,9 @@
 from .models import CISHealthData
 from django_pandas.io import read_frame  # you may need to pip install django-pandas
+import matplotlib.pyplot as plt       # for plotting
+import seaborn as sns                 # for prettier plots
+import base64                         # for image encoding
+from io import BytesIO                # for in-memory image buffer
 
 def dashboard_from_excel(request):
     # Load data from DB
