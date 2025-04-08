@@ -62,7 +62,10 @@ def dashboard_from_excel(request):
     charts['assistance_vs_food'] = fig_to_base64(fig5)
 
     return render(request, 'core/dashboard.html', charts)
-
+    
+def gender_pay_gap_chart(request):
+    return render(request, "core/gender_chart.html")
+    
 def api_gender_pay_gap(request):
     data = (
         CISHealthData.objects
