@@ -1,51 +1,54 @@
 {% extends "core/base.html" %}
 
 {% block content %}
-<h2 class="text-center">Average Income by Gender</h2>
+  <h2 class="text-center">Average Income by Gender</h2>
+  <canvas id="genderChart" width="400" height="200"></canvas>
 
-<canvas id="genderChart" width="400" height="200"></canvas>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-  // Fetch API data
-  fetch('/api/gender-pay-gap/')
-    .then(response => response.json())
-    .then(data => {
-      const labels = data.map(item => item.Gender === 1 ? "Male" : "Female");
-      const values = data.map(item => item.avg_income);
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch('/api/gender-pay-gap/')
+        .then(response => response.json())
+        .then(data => {
+          const labels = data.map(item => item.Gender === 1 ? "Male" : "Female");
+          const values = data.map(item => item.avg_income);
 
-      const ctx = document.getElementById('genderChart').getContext('2d');
-      new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Average Income',
-            data: values,
-            backgroundColor: ['#4e79a7', '#f28e2b']
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { display: false },
-            title: {
-              display: true,
-              text: 'Average Income by Gender'
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                callback: function(value) {
-                  return '$' + value.toLocaleString();
+          const ctx = document.getElementById('genderChart').getContext('2d');
+
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: labels,
+              datasets: [{
+                label: 'Average Income',
+                data: values,
+                backgroundColor: ['#4e79a7', '#f28e2b']
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: { display: false },
+                title: {
+                  display: true,
+                  text: 'Average Income by Gender'
+                }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    callback: function(value) {
+                      return '$' + value.toLocaleString();
+                    }
+                  }
                 }
               }
             }
-          }
-        }
-      });
+          });
+        })
+        .catch(err => console.error("Fetch error:", err));
     });
-</script>
+  </script>
 {% endblock %}
