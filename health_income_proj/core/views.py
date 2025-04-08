@@ -64,7 +64,7 @@ def dashboard_from_excel(request):
     return render(request, 'core/dashboard.html', charts)
     
 def gender_pay_gap_chart(request):
-    return render(request, "core/gender_chart.html")
+    return render(request, "core/gender_pay_gap.html")
     
 def api_gender_pay_gap(request):
     data = (
